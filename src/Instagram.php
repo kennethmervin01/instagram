@@ -5,6 +5,7 @@ namespace Mbarwick83\Instagram;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
+
 class Instagram
 {
     const API_HOST = 'https://api.instagram.com/';
@@ -26,12 +27,12 @@ class Instagram
     	$this->client = new Client([
     	    'base_uri' => self::API_HOST,
     	    'timeout'  => self::TIMEOUT,
-    	]);	
+    	]);
     }
 
     /**
     * Get authorization url for oauth
-    * 
+    *
     * @return String
     */
     public function getLoginUrl()
@@ -41,7 +42,7 @@ class Instagram
 
     /**
     * Get user's access token and basic info
-    * 
+    *
     * @param string $code
     */
     public function getAccessToken($code)
@@ -75,8 +76,8 @@ class Instagram
 
     /**
     * Make POST calls to the API
-    * 
-    * @param  string  $path          
+    *
+    * @param  string  $path
     * @param  boolean $authorization [Use access token query params]
     * @param  array   $parameters    [Optional query parameters]
     * @return Array
@@ -89,7 +90,7 @@ class Instagram
     	    $query = [
     	        'client_id' => $this->client_key,
     	    	'client_secret' => $this->client_secret,
-    	    	'redirect_uri' => $this->redirect_uri,			 
+    	    	'redirect_uri' => $this->redirect_uri,
     	    	'grant_type' => 'authorization_code',
     	    ];
 
@@ -103,15 +104,15 @@ class Instagram
     	    ]);
 
             return $this->toArray($response);
-    	} 
+    	}
     	catch (ClientException $e) {
     	    return $this->toArray($e->getResponse());
-        }    	
+        }
     }
 
     /**
     * Make GET calls to the API
-    * 
+    *
     * @param  string $path
     * @param  array  $parameters [Query parameters]
     * @return Array
@@ -132,7 +133,7 @@ class Instagram
 
     /**
     * Make DELETE calls to the API
-    * 
+    *
     * @param  string  $path
     * @param  array   $parameters    [Optional query parameters]
     * @return Array
@@ -148,12 +149,12 @@ class Instagram
         }
         catch (ClientException $e) {
             return $this->toArray($e->getResponse());
-        } 
+        }
     }
 
     /**
     * Convert API response to array
-    * 
+    *
     * @param  Object $response
     * @return Array
     */
@@ -162,7 +163,3 @@ class Instagram
     	return json_decode($response->getBody()->getContents(), true);
     }
 }
-
-
-
-
